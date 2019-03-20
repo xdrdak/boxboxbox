@@ -109,25 +109,28 @@ const propMap: PropMap = {
 
 // TODO: React.HTMLProps should be generic instead of targetting any
 const Box: React.SFC<BoxProps & React.HTMLProps<any>> = props => {
-  const keys = Object.keys(props);
+  // Shallow copy is good enough. Just need to remove
+  // our extra injected props from the end result.
+  const propsClone = Object.assign({}, props);
+  delete (propsClone as any)['as'];
 
   const baseClassName = props.className || '';
-
+  const keys = Object.keys(props);
   const atomicClassNames = cx(
     keys.reduce((acc: string[], value: string): string[] => {
       const result = propMap[value];
       if (result) {
         const propsValue = (props as any)[value] as any;
-        acc.push(propMap[value](propsValue));
+        acc.push(result(propsValue));
+        delete (propsClone as any)[value];
       }
 
       return acc;
     }, []),
   );
 
-  // TODO: Our custom props should not be forwarded to the component
   return React.createElement(props.as || 'div', {
-    ...props,
+    ...propsClone,
     className: cx([atomicClassNames, baseClassName]),
   });
 };
