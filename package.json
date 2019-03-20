@@ -1,0 +1,31 @@
+{
+  "name": "boxboxbox",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Quick utility wrapper on top of Tachyons",
+  "scripts": {
+    "build": "pack build",
+    "dev": "parcel docs/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@pika/pack": "^0.3.5",
+    "@pika/plugin-ts-standard-pkg": "^0.3.14",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
+    "parcel": "^1.12.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "typescript": "^3.3.3333"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg"
+      ]
+    ]
+  }
+}
