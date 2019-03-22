@@ -73,26 +73,48 @@ type OpacityScale =
   | '025'
   | '0';
 
+// TODO: add other units
+type BorderRadiusScale = '0' | '1' | '2' | '3' | '4';
+
+type HoverEffects =
+  | 'glow'
+  | 'grow'
+  | 'grow-large'
+  | 'hide-child'
+  | 'hover'
+  | 'dim'
+  | 'pointer'
+  | 'animate'
+  | 'shadow'
+  | 'underline';
+
+type FlexDirections = 'column' | 'column-reverse' | 'row' | 'row-reverse';
+
+type Reponsive<T> = T | T[];
+
 type BoxProps = {
   as?: string;
-  pa?: SpacingScale;
-  pv?: SpacingScale;
-  ph?: SpacingScale;
-  pb?: SpacingScale;
-  pt?: SpacingScale;
-  pl?: SpacingScale;
-  pr?: SpacingScale;
-  ma?: SpacingScale;
-  mv?: SpacingScale;
-  mh?: SpacingScale;
-  mb?: SpacingScale;
-  mt?: SpacingScale;
-  ml?: SpacingScale;
-  mr?: SpacingScale;
+  pa?: Reponsive<SpacingScale>;
+  pv?: Reponsive<SpacingScale>;
+  ph?: Reponsive<SpacingScale>;
+  pb?: Reponsive<SpacingScale>;
+  pt?: Reponsive<SpacingScale>;
+  pl?: Reponsive<SpacingScale>;
+  pr?: Reponsive<SpacingScale>;
+  ma?: Reponsive<SpacingScale>;
+  mv?: Reponsive<SpacingScale>;
+  mh?: Reponsive<SpacingScale>;
+  mb?: Reponsive<SpacingScale>;
+  mt?: Reponsive<SpacingScale>;
+  ml?: Reponsive<SpacingScale>;
+  mr?: Reponsive<SpacingScale>;
   color?: TachyonColors;
   bg?: TachyonColors;
   bgHover?: TachyonColors;
   opacity?: OpacityScale;
+  hoverEffect?: HoverEffects;
+  b?: TachyonColors;
+  br?: BorderRadiusScale;
   width?:
     | '10'
     | '20'
@@ -112,4 +134,5 @@ type BoxProps = {
     | 'two-thirds'
     | 'auto';
   display?: string;
+  flexDirection?: Reponsive<FlexDirections>;
 };

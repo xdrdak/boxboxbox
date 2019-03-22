@@ -1,42 +1,80 @@
 /// <reference path="index.d.ts"/>
 import * as React from 'react';
 
+// TODO: cx should cleanup the classname output...
 const cx = (classnames: string[]) => {
   return classnames.join(' ');
 };
 
 interface MapClass {
-  transformer: string | ((v: string) => string);
+  transformer: string | ((v: string | string[]) => string);
+  responsive?: boolean;
 }
-function mapClass({ transformer }: MapClass) {
+function mapClass({ transformer, responsive = false }: MapClass) {
   if (typeof transformer === 'function') {
-    return (value: string) => transformer(value);
+    return (value: string | string[]) => {
+      if (Array.isArray(value) && responsive) {
+        return responsify(value.map(v => transformer(v)));
+      }
+      return transformer(value);
+    };
   }
-  return (value: string) => `${transformer}${value}`;
+
+  return (value: string | string[]) => {
+    if (Array.isArray(value) && responsive) {
+      return responsify(value.map(v => `${transformer}${v}`));
+    }
+    return `${transformer}${value}`;
+  };
+}
+
+function responsify(values: string[]): string {
+  // Tachyons only really has 3 values for responsiveness.
+  // Slice out the first 3 values. Everything else is discarded.
+  return values
+    .slice(0, 3)
+    .map((v, index) => {
+      if (index === 0) {
+        return `${v}`;
+      }
+
+      if (index === 1) {
+        return `${v}-m`;
+      }
+
+      if (index === 2) {
+        return `${v}-l`;
+      }
+
+      return v;
+    })
+    .join(' ');
 }
 
 interface PropMap {
   [k: string]: (v: any) => string;
 }
 const propMap: PropMap = {
-  ma: mapClass({ transformer: 'ma' }),
-  mh: mapClass({ transformer: 'mh' }),
-  mv: mapClass({ transformer: 'mv' }),
-  mb: mapClass({ transformer: 'mb' }),
-  mt: mapClass({ transformer: 'mt' }),
-  ml: mapClass({ transformer: 'ml' }),
-  mr: mapClass({ transformer: 'mr' }),
-  pa: mapClass({ transformer: 'pa' }),
-  pv: mapClass({ transformer: 'pv' }),
-  ph: mapClass({ transformer: 'ph' }),
-  pb: mapClass({ transformer: 'pb' }),
-  pt: mapClass({ transformer: 'pt' }),
-  pl: mapClass({ transformer: 'pl' }),
-  pr: mapClass({ transformer: 'pr' }),
+  ma: mapClass({ transformer: 'ma', responsive: true }),
+  mh: mapClass({ transformer: 'mh', responsive: true }),
+  mv: mapClass({ transformer: 'mv', responsive: true }),
+  mb: mapClass({ transformer: 'mb', responsive: true }),
+  mt: mapClass({ transformer: 'mt', responsive: true }),
+  ml: mapClass({ transformer: 'ml', responsive: true }),
+  mr: mapClass({ transformer: 'mr', responsive: true }),
+  pa: mapClass({ transformer: 'pa', responsive: true }),
+  pv: mapClass({ transformer: 'pv', responsive: true }),
+  ph: mapClass({ transformer: 'ph', responsive: true }),
+  pb: mapClass({ transformer: 'pb', responsive: true }),
+  pt: mapClass({ transformer: 'pt', responsive: true }),
+  pl: mapClass({ transformer: 'pl', responsive: true }),
+  pr: mapClass({ transformer: 'pr', responsive: true }),
   color: mapClass({ transformer: '' }),
   bg: mapClass({ transformer: 'bg-' }),
-  bgHover: mapClass({ transformer: 'bg-hover' }),
+  bgHover: mapClass({ transformer: 'hover-bg-' }),
   opacity: mapClass({ transformer: 'o' }),
+  b: mapClass({ transformer: 'b--' }),
+  br: mapClass({ transformer: 'br' }),
   width: mapClass({ transformer: 'w-' }),
   display: mapClass({
     transformer: value => {
@@ -51,6 +89,7 @@ const propMap: PropMap = {
     },
   }),
   flexDirection: mapClass({
+    responsive: true,
     transformer: value => {
       switch (value) {
         case 'column':
