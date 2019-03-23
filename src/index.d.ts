@@ -73,7 +73,6 @@ type OpacityScale =
   | '025'
   | '0';
 
-// TODO: add other units
 type BorderRadiusScale = '0' | '1' | '2' | '3' | '4';
 
 type HoverEffects =

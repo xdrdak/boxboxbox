@@ -1,6 +1,6 @@
-/// <reference path="index.d.ts"/>
+/// <reference path="../index.d.ts"/>
 import * as React from 'react';
-import { mapClass } from './mapClass';
+import { mapClass } from '../utils/mapClass';
 
 // TODO: cx should cleanup the classname output...
 const cx = (classnames: string[]) => {
