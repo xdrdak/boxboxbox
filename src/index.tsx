@@ -7,7 +7,7 @@ const cx = (classnames: string[]) => {
 };
 
 interface MapClass {
-  transformer: string | ((v: string | string[]) => string);
+  transformer: string | ((v: string) => string);
   responsive?: boolean;
 }
 function mapClass({ transformer, responsive = false }: MapClass) {
@@ -16,7 +16,16 @@ function mapClass({ transformer, responsive = false }: MapClass) {
       if (Array.isArray(value) && responsive) {
         return responsify(value.map(v => transformer(v)));
       }
-      return transformer(value);
+
+      if (Array.isArray(value) && !responsive) {
+        return value.map(v => transformer(v)).join(' ');
+      }
+
+      if (typeof value === 'string') {
+        return transformer(value);
+      }
+
+      return '';
     };
   }
 
@@ -52,7 +61,7 @@ function responsify(values: string[]): string {
 }
 
 interface PropMap {
-  [k: string]: (v: any) => string;
+  [k: string]: (v: string) => string;
 }
 const propMap: PropMap = {
   ma: mapClass({ transformer: 'ma', responsive: true }),
@@ -60,8 +69,14 @@ const propMap: PropMap = {
   mv: mapClass({ transformer: 'mv', responsive: true }),
   mb: mapClass({ transformer: 'mb', responsive: true }),
   mt: mapClass({ transformer: 'mt', responsive: true }),
-  ml: mapClass({ transformer: 'ml', responsive: true }),
-  mr: mapClass({ transformer: 'mr', responsive: true }),
+  ml: mapClass({
+    transformer: value => (value === 'auto' ? 'ml-auto' : `ml${value}`),
+    responsive: true,
+  }),
+  mr: mapClass({
+    transformer: value => (value === 'auto' ? 'mr-auto' : `mr${value}`),
+    responsive: true,
+  }),
   pa: mapClass({ transformer: 'pa', responsive: true }),
   pv: mapClass({ transformer: 'pv', responsive: true }),
   ph: mapClass({ transformer: 'ph', responsive: true }),
@@ -73,9 +88,41 @@ const propMap: PropMap = {
   bg: mapClass({ transformer: 'bg-' }),
   bgHover: mapClass({ transformer: 'hover-bg-' }),
   opacity: mapClass({ transformer: 'o' }),
-  b: mapClass({ transformer: 'b--' }),
+  borderColor: mapClass({ transformer: 'b--' }),
+  borderWidth: mapClass({ transformer: 'bw' }),
+  borderStyles: mapClass({ transformer: 'b--' }),
+  boxShadows: mapClass({ transformer: 'shadow-', responsive: true }),
   br: mapClass({ transformer: 'br' }),
-  width: mapClass({ transformer: 'w-' }),
+  width: mapClass({
+    transformer: value => {
+      if (Array.isArray(value)) {
+        return responsify(
+          value.map(v =>
+            ['1', '2', '3', '4', '5'].indexOf(v) >= 0 ? `w${v}` : `w-${v}`,
+          ),
+        );
+      }
+
+      return ['1', '2', '3', '4', '5'].indexOf(value) >= 0
+        ? `w${value}`
+        : `w-${value}`;
+    },
+  }),
+  measure: mapClass({
+    transformer: value => {
+      switch (value) {
+        case 'measure':
+          return 'measure';
+        case 'narrow':
+          return 'measure-narrow';
+        case 'wide':
+          return 'measure-wide';
+        default:
+          return ``;
+      }
+    },
+    responsive: true,
+  }),
   display: mapClass({
     transformer: value => {
       switch (value) {

@@ -89,50 +89,81 @@ type HoverEffects =
   | 'underline';
 
 type FlexDirections = 'column' | 'column-reverse' | 'row' | 'row-reverse';
+type BorderWidths = '1' | '2' | '3' | '4' | '5';
+type BorderStyles = 'dotted' | 'dashed' | 'solid' | 'none';
+type Widths =
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '10'
+  | '20'
+  | '25'
+  | '30'
+  | '33'
+  | '34'
+  | '40'
+  | '50'
+  | '60'
+  | '70'
+  | '75'
+  | '80'
+  | '90'
+  | '100'
+  | 'third'
+  | 'two-thirds'
+  | 'auto';
+type BoxShadows = '1' | '2' | '3' | '4' | '5';
 
-type Reponsive<T> = T | T[];
+type Responsive<T> = T | T[];
 
 type BoxProps = {
   as?: string;
-  pa?: Reponsive<SpacingScale>;
-  pv?: Reponsive<SpacingScale>;
-  ph?: Reponsive<SpacingScale>;
-  pb?: Reponsive<SpacingScale>;
-  pt?: Reponsive<SpacingScale>;
-  pl?: Reponsive<SpacingScale>;
-  pr?: Reponsive<SpacingScale>;
-  ma?: Reponsive<SpacingScale>;
-  mv?: Reponsive<SpacingScale>;
-  mh?: Reponsive<SpacingScale>;
-  mb?: Reponsive<SpacingScale>;
-  mt?: Reponsive<SpacingScale>;
-  ml?: Reponsive<SpacingScale>;
-  mr?: Reponsive<SpacingScale>;
+  /** Padding All (responsive). Scale varies between 0-7 */
+  pa?: Responsive<SpacingScale>;
+  /** Padding vertical (responsive). Scale varies between 0-7 */
+  pv?: Responsive<SpacingScale>;
+  /** Padding horizontal (responsive). Scale varies between 0-7 */
+  ph?: Responsive<SpacingScale>;
+  /** Padding bottom (responsive). Scale varies between 0-7 */
+  pb?: Responsive<SpacingScale>;
+  /** Padding top (responsive). Scale varies between 0-7 */
+  pt?: Responsive<SpacingScale>;
+  /** Padding left (responsive). Scale varies between 0-7 */
+  pl?: Responsive<SpacingScale>;
+  /** Padding right (responsive). Scale varies between 0-7 */
+  pr?: Responsive<SpacingScale>;
+  /** Margin all (responsive). Scale varies between 0-7 */
+  ma?: Responsive<SpacingScale>;
+  /** Margin vertical (responsive). Scale varies between 0-7 */
+  mv?: Responsive<SpacingScale>;
+  /** Margin horizontal (responsive). Scale varies between 0-7 */
+  mh?: Responsive<SpacingScale>;
+  /** Margin bottom (responsive). Scale varies between 0-7 */
+  mb?: Responsive<SpacingScale>;
+  /** Margin top (responsive). Scale varies between 0-7 */
+  mt?: Responsive<SpacingScale>;
+  /** Margin left (responsive). Scale varies between 0-7 */
+  ml?: Responsive<SpacingScale> | 'auto';
+  /** Margin right (responsive). Scale varies between 0-7 */
+  mr?: Responsive<SpacingScale> | 'auto';
+  /** Text color of Box */
   color?: TachyonColors;
+  /** Solid background color of Box */
   bg?: TachyonColors;
+  /** Solid background color of box when hovering */
   bgHover?: TachyonColors;
+  /** Opacity value, aka how transparent it is */
   opacity?: OpacityScale;
-  hoverEffect?: HoverEffects;
-  b?: TachyonColors;
+  borderColor?: TachyonColors;
+  borderWidth?: BorderWidths;
+  borderStyle?: BorderStyles;
+  boxShadows?: BoxShadows;
+  /** Border radius. Scale varies between 0-4 */
   br?: BorderRadiusScale;
-  width?:
-    | '10'
-    | '20'
-    | '25'
-    | '30'
-    | '33'
-    | '34'
-    | '40'
-    | '50'
-    | '60'
-    | '70'
-    | '75'
-    | '80'
-    | '90'
-    | '100'
-    | 'third'
-    | 'two-thirds'
-    | 'auto';
+  width?: Responsive<Widths>;
+  measure?: Responsive<'measure' | 'wide' | 'narrow'>;
   display?: string;
-  flexDirection?: Reponsive<FlexDirections>;
+  flexDirection?: Responsive<FlexDirections>;
 };
