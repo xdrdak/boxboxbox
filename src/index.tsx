@@ -95,14 +95,6 @@ const propMap: PropMap = {
   br: mapClass({ transformer: 'br' }),
   width: mapClass({
     transformer: value => {
-      if (Array.isArray(value)) {
-        return responsify(
-          value.map(v =>
-            ['1', '2', '3', '4', '5'].indexOf(v) >= 0 ? `w${v}` : `w-${v}`,
-          ),
-        );
-      }
-
       return ['1', '2', '3', '4', '5'].indexOf(value) >= 0
         ? `w${value}`
         : `w-${value}`;
