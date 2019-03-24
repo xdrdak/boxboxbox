@@ -25,7 +25,7 @@ interface MapClass {
   transformer: string | ((v: string) => string);
   responsive?: boolean;
 }
-function mapClass({ transformer, responsive = false }: MapClass) {
+export function mapClass({ transformer, responsive = false }: MapClass) {
   if (typeof transformer === 'function') {
     return (value: string | string[]) => {
       if (Array.isArray(value) && responsive) {
@@ -55,5 +55,3 @@ function mapClass({ transformer, responsive = false }: MapClass) {
     return `${transformer}${value}`;
   };
 }
-
-export { mapClass };

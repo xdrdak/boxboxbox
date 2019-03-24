@@ -2,11 +2,6 @@
 import * as React from 'react';
 import { mapClass } from '../utils/mapClass';
 
-// TODO: cx should cleanup the classname output...
-const cx = (classnames: string[]) => {
-  return classnames.join(' ');
-};
-
 interface PropMap {
   [k: string]: (v: string) => string;
 }
@@ -17,12 +12,12 @@ const propMap: PropMap = {
   mb: mapClass({ transformer: 'mb', responsive: true }),
   mt: mapClass({ transformer: 'mt', responsive: true }),
   ml: mapClass({
-    transformer: value => (value === 'auto' ? 'ml-auto' : `ml${value}`),
     responsive: true,
+    transformer: value => (value === 'auto' ? 'ml-auto' : `ml${value}`),
   }),
   mr: mapClass({
-    transformer: value => (value === 'auto' ? 'mr-auto' : `mr${value}`),
     responsive: true,
+    transformer: value => (value === 'auto' ? 'mr-auto' : `mr${value}`),
   }),
   pa: mapClass({ transformer: 'pa', responsive: true }),
   pv: mapClass({ transformer: 'pv', responsive: true }),
@@ -39,15 +34,35 @@ const propMap: PropMap = {
   borderWidth: mapClass({ transformer: 'bw' }),
   borderStyles: mapClass({ transformer: 'b--' }),
   boxShadows: mapClass({ transformer: 'shadow-', responsive: true }),
-  br: mapClass({ transformer: 'br' }),
+  br: mapClass({ transformer: 'br', responsive: true }),
   width: mapClass({
+    responsive: true,
     transformer: value => {
       return ['1', '2', '3', '4', '5'].indexOf(value) >= 0
         ? `w${value}`
         : `w-${value}`;
     },
   }),
+  fontSize: mapClass({ responsive: true, transformer: 'f' }),
+  textAlign: mapClass({
+    responsive: true,
+    transformer: value => {
+      switch (value) {
+        case 'left':
+          return 'tl';
+        case 'right':
+          return 'tr';
+        case 'center':
+          return 'tc';
+        case 'justify':
+          return 'tj';
+        default:
+          return '';
+      }
+    },
+  }),
   measure: mapClass({
+    responsive: true,
     transformer: value => {
       switch (value) {
         case 'measure':
@@ -60,7 +75,6 @@ const propMap: PropMap = {
           return ``;
       }
     },
-    responsive: true,
   }),
   display: mapClass({
     transformer: value => {
@@ -129,13 +143,75 @@ const propMap: PropMap = {
       }
     },
   }),
+  alignSelf: mapClass({
+    responsive: true,
+    transformer: value => {
+      switch (value) {
+        case 'flex-start':
+          return 'self-start';
+        case 'flex-end':
+          return 'self-end';
+        case 'center':
+          return 'self-center';
+        case 'baseline':
+          return 'self-baseline';
+        case 'stretch':
+          return 'self-stretch';
+        default:
+          return '';
+      }
+    },
+  }),
   flexWrap: mapClass({ transformer: 'flex-wrap-' }),
+  fontFamily: mapClass({
+    transformer: value => {
+      switch (value) {
+        case 'sans-serif':
+          return 'sans-serif';
+        case 'serif':
+          return 'serif';
+        case 'system-sans-serif':
+          return 'system-sans-serif';
+        case 'system-serif':
+          return 'system-serif';
+        case 'code':
+          return 'code';
+        case 'courier':
+          return 'courier';
+        case 'helvetica':
+          return 'helvetica';
+        case 'avenir':
+          return 'avenir';
+        case 'athelas':
+          return 'athelas';
+        case 'georgia':
+          return 'georgia';
+        case 'times':
+          return 'times';
+        case 'bodoni':
+          return 'bodoni';
+        case 'calisto':
+          return 'calisto';
+        case 'garamond':
+          return 'garamond';
+        case 'baskerville':
+          return 'baskerville';
+        default:
+          return '';
+      }
+    },
+  }),
+};
+
+// TODO: cx should cleanup the classname output...
+const cx = (classnames: string[]) => {
+  return classnames.join(' ');
 };
 
 // TODO: React.HTMLProps should be generic instead of targetting any
 const Box: React.SFC<BoxProps & React.HTMLProps<any>> = props => {
   // Shallow copy is good enough. Just need to remove
-  // our extra injected props from the end result.
+  // our extra injected props from the end markup.
   const propsClone = Object.assign({}, props);
   delete (propsClone as any)['as'];
 

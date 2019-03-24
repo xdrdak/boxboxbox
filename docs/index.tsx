@@ -27,6 +27,7 @@ const App = () => (
       </Box>
       <Box
         as="button"
+        type="button"
         bg="blue"
         bgHover="dark-blue"
         color="white"

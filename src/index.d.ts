@@ -114,7 +114,25 @@ type Widths =
   | 'two-thirds'
   | 'auto';
 type BoxShadows = '1' | '2' | '3' | '4' | '5';
-
+type FontFamilies =
+  | 'sans-serif'
+  | 'serif'
+  | 'system-sans-serif'
+  | 'system-serif'
+  | 'code'
+  | 'courier'
+  | 'helvetica'
+  | 'avenir'
+  | 'athelas'
+  | 'georgia'
+  | 'times'
+  | 'bodoni'
+  | 'calisto'
+  | 'garamond'
+  | 'baskerville';
+type TextAlign = 'left' | 'right' | 'center' | 'justify';
+type AlignSelf = 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
+type FontScale = '1' | '2' | '3' | '4' | '5' | '6' | '7';
 type Responsive<T> = T | T[];
 
 type BoxProps = {
@@ -165,4 +183,9 @@ type BoxProps = {
   measure?: Responsive<'measure' | 'wide' | 'narrow'>;
   display?: string;
   flexDirection?: Responsive<FlexDirections>;
+  alignSelf?: Responsive<AlignSelf>;
+  /** Font Size. Scale varies between 1 - 7. 1 is biggest font, 7 is smallest */
+  fontSize?: Responsive<FontScale>;
+  fontFamily?: FontFamilies;
+  textAlgin?: Responsive<TextAlign>;
 };
